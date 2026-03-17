@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>百炼智能体工作台</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="side-panel">
+        <div class="brand-block">
+          <p class="eyebrow">Project Filing Copilot</p>
+          <h1>立项助手</h1>
+          <p class="lede">
+            面向立项材料整理、方案梳理与文档问答的智能工作台。默认不长期存储，刷新后即清空。
+          </p>
+        </div>
+
+        <div class="info-card status-card">
+          <div class="section-title">
+            <span class="dot"></span>
+            <span>连接状态</span>
+          </div>
+          <div id="configStatus" class="status-list">
+            <div>正在检测配置...</div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="workspace-header">
+            <div>
+              <p class="eyebrow">Temporary Session</p>
+              <h2>与立项助手实时对话</h2>
+            </div>
+          <div class="header-actions">
+            <button id="newChatBtn" class="ghost-button">新会话</button>
+            <button id="retryBtn" class="ghost-button">重新回答</button>
+            <button id="stopBtn" class="ghost-button" disabled>停止生成</button>
+          </div>
+        </header>
+
+        <section id="messageViewport" class="message-viewport">
+          <div class="welcome-card">
+            <p class="eyebrow">Session Zero</p>
+            <h3>你可以直接开始整理立项内容</h3>
+            <p class="welcome-kicker">请开始吧！</p>
+            <p>
+              支持流式回复、连续对话和附件管理。你可以直接上传材料，让立项助手帮你提炼重点。`Enter` 发送，`Shift + Enter` 换行。
+            </p>
+            <div class="welcome-tags">
+              <span>立项梳理</span>
+              <span>文档问答</span>
+              <span>会话级上下文</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="composer-wrap">
+          <div id="attachmentList" class="attachment-list empty">
+            <span>暂无附件</span>
+          </div>
+
+          <form id="composerForm" class="composer">
+            <label for="fileInput" class="attach-button">上传文件</label>
+            <input id="fileInput" type="file" multiple />
+
+            <textarea
+              id="promptInput"
+              rows="1"
+              placeholder="输入你的问题，或让百炼智能体帮你完成任务..."
+            ></textarea>
+
+            <button id="sendBtn" type="submit" class="send-button">发送</button>
+          </form>
+
+        </section>
+      </main>
+    </div>
+
+    <template id="messageTemplate">
+      <article class="message">
+        <div class="message-meta">
+          <span class="message-role"></span>
+          <button class="copy-button" type="button">复制</button>
+        </div>
+        <div class="message-body"></div>
+      </article>
+    </template>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
