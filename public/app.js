@@ -107,20 +107,25 @@ async function uploadFilesIfNeeded() {
     return [];
   }
 
-  const formData = new FormData();
-  state.files.forEach((file) => formData.append("files", file));
+  const uploads = state.files.map(async (file) => {
+    const formData = new FormData();
+    formData.append("files", file);
 
-  const res = await fetch("/api/files/upload", {
-    method: "POST",
-    body: formData,
+    const res = await fetch("/api/files/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "文件上传失败");
+    }
+
+    return data.fileUrls || [];
   });
-  const data = await res.json();
 
-  if (!res.ok) {
-    throw new Error(data.error || "文件上传失败");
-  }
-
-  return data.fileUrls || [];
+  const results = await Promise.all(uploads);
+  return results.flat();
 }
 
 function setStreamingState(active) {
@@ -169,7 +174,7 @@ async function streamChat() {
   setStreamingState(true);
 
   let assistantText = "";
-  const assistantNode = createMessage("assistant", "正在连接百炼智能体...", "typing");
+  const assistantNode = createMessage("assistant", "正在火速生成立项报告中...", "typing");
   const assistantBody = assistantNode.querySelector(".message-body");
 
   try {
