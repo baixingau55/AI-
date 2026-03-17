@@ -139,9 +139,6 @@ function bailianHeaders({ hasOssFile = false } = {}) {
   return {
     Authorization: `Bearer ${BAILIAN_API_KEY}`,
     "Content-Type": "application/json",
-    ...(process.env.BAILIAN_WORKSPACE_ID
-      ? { "X-DashScope-WorkSpace": process.env.BAILIAN_WORKSPACE_ID }
-      : {}),
     ...(hasOssFile ? { "X-DashScope-OssResourceResolve": "enable" } : {}),
   };
 }
@@ -433,6 +430,10 @@ app.get(/.*/, (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.listen(PORT, () => {
-  console.log(`Bailian agent chat is running at http://localhost:${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Bailian agent chat is running at http://localhost:${PORT}`);
+  });
+}
+
+export default app;
