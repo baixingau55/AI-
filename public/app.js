@@ -55,7 +55,7 @@ function createMessage(role, content, extraClass = "") {
   if (extraClass) {
     node.classList.add(extraClass);
   }
-  node.querySelector(".message-role").textContent = role === "user" ? "用户" : "智能体";
+  node.querySelector(".message-role").textContent = role === "user" ? "用户" : "超级立项助手";
   node.querySelector(".message-body").innerHTML = formatMessageContent(content);
 
   node.querySelector(".copy-button").addEventListener("click", async () => {
